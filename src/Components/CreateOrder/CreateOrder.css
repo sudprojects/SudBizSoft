@@ -1,0 +1,42 @@
+.myflex{
+
+	display: flex;
+	flex-direction: column;
+	padding-top: 10%;
+	align-items: flex-start;
+}
+
+.ifield{
+	padding-left: 40%;
+}
+
+.myform{
+
+padding-top: 2%;
+padding-left: 30%;
+
+}
+
+.garden {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  grid-template-rows: 20% 20% 20% 20% 20%;
+  background-color: gray;
+
+}
+
+.water{
+	grid-column-start: 3;
+	grid-row-start: 3;
+	
+
+}
+
+.headers{
+	padding-top: 5%;
+}
+
+.mymargin{
+	margin: 5px;
+}

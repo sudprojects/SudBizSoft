@@ -1,28 +1,91 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import SignIn from './Components/SignIn/SignIn';
+import Navigation from './Components/Navigation/Navigation';
+import Register from './Components/Register/Register';
+import CreateOrder from './Components/CreateOrder/CreateOrder';
+import SearchOrders from './Components/SearchOrders/SearchOrders';
+import AddProduct from './Components/AddProduct/AddProduct';
+import { BrowserRouter, Route, Switch, IndexRoute } from 'react-router-dom';
+import ls from 'local-storage';
+
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+
+
+  state = {
+
+    route: 'SignIn',
+    user: {
+        id: '',
+        name: '',
+        email: '',
+        score: 0,
+        joined: ''
+      }
+
   }
+
+    loadUser = (data) => {
+
+    this.setState({user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        score: data.score,
+        joined: data.joined
+       
+    }})
+     ls.set('lsuserid', data.id);
+  }
+
+  onRouteChange = (route) =>{
+  this.setState ({
+
+  route: route
+})
+
+  }
+
+  render() {
+  return (
+      <div className="App">
+      <BrowserRouter>
+      
+      
+      <Switch>
+      <Route exact path = '/' render = {(props) => <SignIn loadUser = {this.loadUser} />} />
+      <Route path = '/home/search' render = {(props) => <SearchOrders user = {this.state.user.id} />} />
+      <Route path = '/home/register' render = {(props) => <Register loadUser = {this.loadUser} />}  />
+      <Route path = '/home/create' render = {(props) => <CreateOrder user = {this.state.user.id} />} />
+      <Route path = '/home/add' render = {(props) => <AddProduct user = {this.state.user.id} />} />
+
+      <Route path = '/home' component = {Navigation} />
+      </Switch>
+      
+      </BrowserRouter>
+      </div>
+    )
+
+      
+
+    }
+
+  
 }
 
 export default App;
+
+
+
+/*
+
+    if((this.state.user).length){
+      console.log(this.state.user);
+      return(
+      
+        <Navigation />
+
+        )}else{
+
+  */
