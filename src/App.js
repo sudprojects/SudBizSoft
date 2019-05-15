@@ -37,6 +37,7 @@ class App extends Component {
        
     }})
      ls.set('lsuserid', data.id);
+     
   }
 
   onRouteChange = (route) =>{

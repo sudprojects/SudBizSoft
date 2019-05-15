@@ -1,8 +1,9 @@
 import React from 'react';
 import './CreateOrder.css';
 import Navigation from '../Navigation/Navigation';
-import { Button, Form, FormGroup, Label, Input, FormText, Col, Row, FormFeedback, tooltip } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText, Col, Row, FormFeedback, tooltip, Alert } from 'reactstrap';
 import Select from 'react-select';
+import ls from 'local-storage';
 
 const options1 = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -14,21 +15,43 @@ const options = [
   'one', 'two', 'three'
 ]
 
+
 class CreateOrder extends React.Component {
 
 	state = {
-
-		product_name: '',
-		number_of_units: '',
-		total_price: '',
+		product_name: undefined,
+		number_of_units: undefined,
+		total_price: undefined,
 		notes:'',
+		visible:false,
+		onDismiss:false,
+		myuser:undefined,
 		options: []
 	}
 
 
-onPNChange = (event) =>{
-this.setState({product_name: event.target.value})
+	clearValues = () =>{
 
+	//document.getElementById('product_name').value = '';
+	document.getElementById('number_of_units').value = '';
+	document.getElementById('total_price').value = '';
+	document.getElementById('notes').value = '';
+
+	}
+
+componentDidMount() {
+	var loggedInUser = ls.get('lsuserid');
+
+	this.setState({myuser:loggedInUser});
+	//console.log('loggedInUser',loggedInUser)
+	this.productList(loggedInUser);
+	
+	
+  }
+
+onPNChange = (event) =>{
+this.setState({product_name: event.target.value});
+this.setState({visible:false});
 }
 
 onUnitsChange = (event) =>{
@@ -49,7 +72,7 @@ this.setState({notes: event.target.value})
 	onButtonSubmit = () => {
 
 	
-	fetch('https://bizserver.herokuapp.com/addOrders', {
+	fetch('http://localhost:3000/addOrders', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -57,7 +80,7 @@ this.setState({notes: event.target.value})
               number_of_units: this.state.number_of_units,
               total_price: this.state.total_price,
               notes: this.state.notes,
-              user_id: this.props.user
+              user_id: this.state.myuser
 
             })
           })
@@ -66,22 +89,34 @@ this.setState({notes: event.target.value})
 
 		console.log(order);
 	})
+
+ 	this.clearValues();
+ 	this.setState({visible:true});
+ 	this.onDismiss = this.onDismiss.bind(this);
+
 }
 
+onDismiss() {
+    this.setState({ visible: false });
+  }
 
-productList = () => {
 
-			fetch('https://bizserver.herokuapp.com/productList', {
+productList = (loggedInUser) => {
+
+			fetch('http://localhost:3000/productList', {
 		            method: 'post',
 		            headers: {'Content-Type': 'application/json'},
 		            body: JSON.stringify({
-		              user_id: this.props.user
+		              user_id: loggedInUser
 		            })
 		          })
 			.then(response => response.json())
 			.then(products => {
 				this.setState({options: products.map((product,i) => product.product_name)})
+				this.setState({ product_name: this.state.options[0] });
+				console.log('1st option:', this.state.options[0]);
 			})
+			console.log('saveduserproduct:', loggedInUser);
 }
 
 	render(){
@@ -93,10 +128,13 @@ productList = () => {
 			 <div className = 'myform'>
 
 				<div>
-			        <FormGroup row>
-			          <Label for="exampleEmail" sm={2}>Product Name</Label>
+			       
+			       	 <FormGroup row>
+			          <Label for="exampleSelect" sm={2}>Product Name</Label>
 			          <Col sm={3}>
-			            <Input type="text" name="product_name" id="product_name" placeholder="Enter product Name" onChange = {this.onPNChange} />
+			            <Input type="select" name="select" id="exampleSelect" onChange = {this.onPNChange} size ="5"> 
+				          {this.state.options.map((option, i) => <option key = {i}>{option}</option>)}
+	          			</Input>
 			          </Col>
 			        </FormGroup>
 
@@ -117,21 +155,11 @@ productList = () => {
 					<FormGroup row>
 			          <Label for="exampleText" sm={2}>Notes</Label>
 			          <Col sm={3}>
-			            <Input type="textarea" name="text" id="exampleText" onChange = {this.onNotesChange} />
+			            <Input type="textarea" name="text" id="notes" onChange = {this.onNotesChange} />
 			          </Col>
 			        </FormGroup>
 
-			        <FormGroup row>
-			          <Label for="exampleSelect" sm={2}>Select</Label>
-			          <Col sm={3}>
-			            <Input type="select" name="select" id="exampleSelect"> 
-				          {this.state.options.map((option, i) => <option key = {i}>{option}</option>)}
-	          			  
 
-			            </Input>
-			          </Col>
-
-			        </FormGroup>
 			       
 			        <FormGroup check row>
 			          <Col sm={{ size: 3, offset: 2 }}>
@@ -141,8 +169,13 @@ productList = () => {
 			          </Col>
 			        </FormGroup>
 
+
+
 			     </div>
 		        </div>
+		       			              <Alert className = 'alert' color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
+					        Order successfully created
+					      </Alert>      
 			 </div>
 		);
 
@@ -206,3 +239,12 @@ order_date
 				//const map1 = products.map((product,i) => product.product_name);
 				//console.log('map1',map1);
 				//this.setState({options: map1})
+
+/* <FormGroup row>
+			          <Label for="exampleEmail" sm={2}>Product Name</Label>
+			          <Col sm={3}>
+			            <Input type="text" name="product_name" id="product_name" placeholder="Enter product Name" onChange = {this.onPNChange} />
+			          </Col>
+			        </FormGroup>
+
+			        */

@@ -1,7 +1,8 @@
 import React from 'react';
 import Navigation from '../Navigation/Navigation'
-import { Button, Form, FormGroup, Label, Input, FormText, Col, Row, FormFeedback, tooltip } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText, Col, Row, FormFeedback, tooltip, Alert } from 'reactstrap';
 import '../CreateOrder/CreateOrder.css';
+import ls from 'local-storage';
 
 class AddProduct extends React.Component {
 
@@ -10,9 +11,31 @@ class AddProduct extends React.Component {
 		product_name: '',
 		cost_to_company: '',
 		notes:'',
-		products: []
+		products: [],
+		myuser:'',
+		visible:false,
+		onDismiss:false,
 	}
 
+componentDidMount() {
+	var loggedInUser = ls.get('lsuserid');
+	this.setState({myuser:loggedInUser});
+	
+	
+  }
+
+clearValues = () =>{
+
+	//document.getElementById('product_name').value = '';
+	document.getElementById('product_name').value = '';
+	document.getElementById('total_price').value = '';
+	document.getElementById('notes').value = '';
+
+	}
+
+onDismiss() {
+    this.setState({ visible: false });
+  }
 
 onPNChange = (event) =>{
 this.setState({product_name: event.target.value})
@@ -31,14 +54,14 @@ this.setState({notes: event.target.value})
 
 	onButtonSubmit = () => {
 	
-			fetch('https://bizserver.herokuapp.com/addProduct', {
+			fetch('http://localhost:3000/addProduct', {
 		            method: 'post',
 		            headers: {'Content-Type': 'application/json'},
 		            body: JSON.stringify({
 		              product_name: this.state.product_name,
 		              cost_to_company: this.state.cost_to_company,
 		              notes: this.state.notes,
-		              user_id: this.props.user
+		              user_id: this.state.myuser
 		            })
 		          })
 			.then(response => response.json())
@@ -47,6 +70,9 @@ this.setState({notes: event.target.value})
 				console.log(product);
 
 			})
+			this.clearValues();
+			this.setState({visible:true});
+ 			this.onDismiss = this.onDismiss.bind(this);
 		}
 
 
@@ -78,7 +104,7 @@ render(){
 					<FormGroup row>
 			          <Label for="exampleText" sm={2}>Notes</Label>
 			          <Col sm={3}>
-			            <Input type="textarea" name="text" id="exampleText" onChange = {this.onNotesChange} />
+			            <Input type="textarea" name="text" id="notes" onChange = {this.onNotesChange} />
 			          </Col>
 			        </FormGroup>
 
@@ -87,11 +113,11 @@ render(){
 			            <Button type="submit" color="primary" onClick = {this.onButtonSubmit}>Submit</Button>
 			          </Col>
 			        </FormGroup>
-
-
-
 		 </div>
 
+		 			 <Alert className = 'alert' color="info" isOpen={this.state.visible} toggle={this.onDismiss}>
+					        Product successfully added
+					 </Alert> 
 		</div>
 
 		)
