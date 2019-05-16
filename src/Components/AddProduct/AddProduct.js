@@ -54,7 +54,7 @@ this.setState({notes: event.target.value})
 
 	onButtonSubmit = () => {
 	
-			fetch('http://localhost:3000/addProduct', {
+			fetch('https://bizserver.herokuapp.com/addProduct', {
 		            method: 'post',
 		            headers: {'Content-Type': 'application/json'},
 		            body: JSON.stringify({

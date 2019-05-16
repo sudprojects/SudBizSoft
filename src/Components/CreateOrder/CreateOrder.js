@@ -72,7 +72,7 @@ this.setState({notes: event.target.value})
 	onButtonSubmit = () => {
 
 	
-	fetch('http://localhost:3000/addOrders', {
+	fetch('https://bizserver.herokuapp.com/addOrders', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -103,7 +103,7 @@ onDismiss() {
 
 productList = (loggedInUser) => {
 
-			fetch('http://localhost:3000/productList', {
+			fetch('https://bizserver.herokuapp.com/productList', {
 		            method: 'post',
 		            headers: {'Content-Type': 'application/json'},
 		            body: JSON.stringify({

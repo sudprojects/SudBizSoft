@@ -18,7 +18,7 @@ class SearchOrders extends React.Component {
 
 	var test = ls.get('lsuserid'); //LS
 	console.log('test:', test); //LS
-	fetch('http://localhost:3000/SearchOrders', {
+	fetch('https://bizserver.herokuapp.com/SearchOrders', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
