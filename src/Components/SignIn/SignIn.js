@@ -10,16 +10,20 @@ constructor(props){
     signInPassword: ''
   }
 }
+
+//detecting value and setting state for Email 
 onEmailChange = (event) =>{
 this.setState({signInEmail: event.target.value})
 
 }
 
+//detecting value and setting state for Password 
 onPasswordChange = (event) =>{
 this.setState({signInPassword: event.target.value})
 
 }
 
+//Fetching user details from db when user clicks submit/SignIn.
 onSubmitSignIn = () =>{
   fetch('https://bizserver.herokuapp.com/signin', {
     method:'post',
@@ -29,14 +33,6 @@ onSubmitSignIn = () =>{
       password: this.state.signInPassword
     })
   })
- /* .then(response => response.json())
-  .then(data => {
-
-    if (data === 'success'){
-       this.props.onRouteChange('home');
-    }
-  })
- */
       .then(response => response.json())
       .then(user => {
         if(user.id){
@@ -47,7 +43,7 @@ onSubmitSignIn = () =>{
 }
 
 render(){
-//const { onRouteChange } = this.props;
+
 return (
 <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">
 <main className="pa4 black-80">

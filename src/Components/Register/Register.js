@@ -12,21 +12,25 @@ constructor(props){
   }
 }
 
+//detecting value and setting state for Name 
 onNameChange = (event) =>{
 this.setState({name: event.target.value})
 
 }
+
+//detecting value and setting state for Email 
 onEmailChange = (event) =>{
 this.setState({email: event.target.value})
 
 }
 
+//detecting value and setting state for Password 
 onPasswordChange = (event) =>{
 this.setState({password: event.target.value})
 
 }
 
-
+//Storing order details in db when user clicks submit.  
 onSubmitSignIn = () =>{
   fetch('https://bizserver.herokuapp.com/register', {
     method:'post',
@@ -49,9 +53,8 @@ onSubmitSignIn = () =>{
 }
 
 
+//Using Tachyons for register form
 render(){
-
-
 return (
 <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
 <main className="pa4 black-80">

@@ -33,25 +33,30 @@ clearValues = () =>{
 
 	}
 
+//For dismissing alert
 onDismiss() {
     this.setState({ visible: false });
   }
 
+//detecting value and setting state for Product Name
 onPNChange = (event) =>{
 this.setState({product_name: event.target.value})
 
 }
 
+//detecting value and setting state for "Cost to Company"
 onCTCChange = (event) =>{
 this.setState({cost_to_company: event.target.value})
 
 }
 
+//detecting value and setting state for "Notes"
 onNotesChange = (event) =>{
 this.setState({notes: event.target.value})
 
 }
 
+//Storing product details in db when user clicks submit. Also clearing input values & showing alert message to user 
 	onButtonSubmit = () => {
 	
 			fetch('https://bizserver.herokuapp.com/addProduct', {
@@ -76,7 +81,7 @@ this.setState({notes: event.target.value})
 		}
 
 
-
+//Rendering UI, using reactstrap for form
 render(){
 
 	return(

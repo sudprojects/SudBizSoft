@@ -13,7 +13,7 @@ class SearchOrders extends React.Component {
 	}
 	
 
-
+//Fetching order details from db when user clicks submit/Search.
 	onButtonSubmit = () => {
 
 	var test = ls.get('lsuserid'); //LS
@@ -39,6 +39,7 @@ class SearchOrders extends React.Component {
 
 	}
 
+//Rendering data with react-table 
 	render(){
 
 	
@@ -103,36 +104,3 @@ class SearchOrders extends React.Component {
 }
 
 export default SearchOrders;
-
-
-
-/*	<div>
-				<thead>
-			        <tr className="stripe-dark">
-			          <th className="fw6 tl pa3 bg-white">Product Name</th>
-			          <th className="fw6 tl pa3 bg-white">Number of Units</th>
-			          <th className="fw6 tl pa3 bg-white">Total Price</th>
-			          <th className="fw6 tl pa3 bg-white">Notes</th>
-			        </tr>
-			    </thead>
-			</div>
-
-
-			{
-				this.state.orders.map((record, i) =>
-					//<span key = {i}>{record.order_id}</span>
-					<div>
-						<tbody>
-						<tr key = {i} className="stripe-dark">
-				          <td className="fw6 tl pa3 bg-white">{record.product_name}</td>
-				          <td className="fw6 tl pa3 bg-white">{record.number_of_units}</td>
-				          <td className="fw6 tl pa3 bg-white">{record.total_price}</td>
-				          <td className="fw6 tl pa3 bg-white">{record.notes}</td>
-				        </tr>
-				        </tbody>
-					</div>
-
-				)
-			}
-
-*/

@@ -3,17 +3,8 @@ import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 
 
-
+//Using react-router-dom for navigating through pages
 const Navigation = ({ onRouteChange, profile }) => {
-
-	// return (
-
-	// 		<div>
-	// 		<p onClick = {() => onRouteChange('SignIn')}>Sign Out</p>
-	// 		<p> profile {profile.name} </p>
-	// 		</div>
-
-	// 	);
 
 	return(
 	<div>

@@ -5,17 +5,6 @@ import { Button, Form, FormGroup, Label, Input, FormText, Col, Row, FormFeedback
 import Select from 'react-select';
 import ls from 'local-storage';
 
-const options1 = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-];
-
-const options = [
-  'one', 'two', 'three'
-]
-
-
 class CreateOrder extends React.Component {
 
 	state = {
@@ -41,36 +30,37 @@ class CreateOrder extends React.Component {
 
 componentDidMount() {
 	var loggedInUser = ls.get('lsuserid');
-
 	this.setState({myuser:loggedInUser});
-	//console.log('loggedInUser',loggedInUser)
 	this.productList(loggedInUser);
-	
-	
+		
   }
 
+//detecting value and setting state for Product Name
 onPNChange = (event) =>{
 this.setState({product_name: event.target.value});
 this.setState({visible:false});
 }
 
+//detecting value and setting state for "number of units"
 onUnitsChange = (event) =>{
 this.setState({number_of_units: event.target.value})
 
 }
 
+//detecting value and setting state for "total_price" 
 onPriceChange = (event) =>{
 this.setState({total_price: event.target.value})
 
 }
 
+//detecting value and setting state for "Notes" 
 onNotesChange = (event) =>{
 this.setState({notes: event.target.value})
 
 }
 
+//Storing order details in db when user clicks submit. Also clearing input values & showing alert message to user 
 	onButtonSubmit = () => {
-
 	
 	fetch('https://bizserver.herokuapp.com/addOrders', {
             method: 'post',
@@ -96,11 +86,13 @@ this.setState({notes: event.target.value})
 
 }
 
+//For dismissing alert
 onDismiss() {
     this.setState({ visible: false });
   }
 
-
+//This function is used to get the latest product list from db. This is called in componentDidMount() so that 
+//when user comes to this page, latest product list is loaded
 productList = (loggedInUser) => {
 
 			fetch('https://bizserver.herokuapp.com/productList', {
@@ -119,6 +111,7 @@ productList = (loggedInUser) => {
 			console.log('saveduserproduct:', loggedInUser);
 }
 
+//Rendering UI, using reactstrap for form
 	render(){
 
 	return (
@@ -180,71 +173,7 @@ productList = (loggedInUser) => {
 		);
 
 	}
-	
-
 
 }
 
 export default CreateOrder;
-
-/*
-DB
-order_id
-user_id
-product_name
-number_of_units
-total_price
-notes
-order_date
-
-*/
-
-/*
-
-			<div  className = 'myflex'>
-			
-			<p  className = 'ifield' ><label>Product Name: </label><input type = 'text' onChange = {this.onPNChange} /></p>
-			<p  className = 'ifield' ><label>Number of units: </label><input type = 'text' onChange = {this.onUnitsChange} /></p>
-			<p><label>Total price: </label><input type = 'text' onChange = {this.onPriceChange} /></p>
-			<p><label>Notes: </label><input type = 'text' onChange = {this.onNotesChange} /></p>
-			{console.log('inside CreateOrder page')}
-			<button className="mv2 pv2 ph3 pointer b br2 hover-bg-dark-green bg-green white bn f7 ttu tracked w-3 center"
-					type="submit" onClick = {this.onButtonSubmit}>Create Order</button>
-			</div>
-
-
-*/
-
-/*
-			        <Select
-				        value= 'Chocolate'
-				        onChange={this.handleChange}
-				        options={this.state.options}
-				     />
-
-*/
-
-				//this.setState({products: products})
-				//const map2 = map1.map(x => <option key={x.key} value={x.key}>{x.value}</option>)
-				//const map2 = map1.map(x => `{value: '${x}', label: '${x}'}` );
-				//const map2 = map1.map(x =>  <option>x</option> );
-
-				//console.log('list', this.state.products);
-				//console.log(map2);
-			
-				//console.log('options1:', options1);
-				//console.log('options:', this.state.options);
-
-				//this.state.options = products.map((product,i) => product.product_name);
-				//const map1 = products.map((product,i) => product.product_name);
-				//console.log('map1',map1);
-				//this.setState({options: map1})
-
-/* <FormGroup row>
-			          <Label for="exampleEmail" sm={2}>Product Name</Label>
-			          <Col sm={3}>
-			            <Input type="text" name="product_name" id="product_name" placeholder="Enter product Name" onChange = {this.onPNChange} />
-			          </Col>
-			        </FormGroup>
-
-			        */

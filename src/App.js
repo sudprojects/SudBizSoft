@@ -26,6 +26,7 @@ class App extends Component {
 
   }
 
+//loadUser function will load user from database when user signs in
     loadUser = (data) => {
 
     this.setState({user: {
@@ -40,6 +41,7 @@ class App extends Component {
      
   }
 
+//Navigating from one page to another
   onRouteChange = (route) =>{
   this.setState ({
 
@@ -76,17 +78,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-/*
-
-    if((this.state.user).length){
-      console.log(this.state.user);
-      return(
-      
-        <Navigation />
-
-        )}else{
-
-  */
